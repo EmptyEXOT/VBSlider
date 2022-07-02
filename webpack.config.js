@@ -4,7 +4,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
-        app: "./src/main.js"
+        app: "./src/main.ts"
     },
     output: {
         filename: "[name].[contenthash].js",
@@ -30,7 +30,7 @@ module.exports = {
                 }
             },
             {
-                test: /\.css$/,
+                test: /\.(css|scss|sass)$/,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
             },
             {
@@ -38,6 +38,14 @@ module.exports = {
                 issuer: /\.[jt]sx?$/,
                 use: ['@svgr/webpack'],
             },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
         ]
-    }
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
 }
