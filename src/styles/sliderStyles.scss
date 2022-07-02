@@ -1,0 +1,42 @@
+body {
+  margin: 0 auto;
+  padding: 0;
+}
+
+.slider {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1000px;
+  width: 100%;
+  margin: 20px auto;
+  background-color: aliceblue;
+  padding: 10px;
+}
+
+.slider-content {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  overflow: hidden;
+}
+
+
+.slide {
+  min-height: 400px;
+  justify-content: center;
+  background-color: teal;
+  align-items: center;
+  visibility: hidden;
+  margin: 20px;
+  display: none;
+  width: 30%;
+}
+
+.active {
+  visibility: visible;
+  display: flex;
+}
+
+.btn-disable {
+}
+
