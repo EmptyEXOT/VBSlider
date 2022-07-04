@@ -1,10 +1,22 @@
 import("./styles/sliderStyles.scss");
+import NavBtn from "./js/NavBtn";
+
+import SliderInit from "./js/SliderInit";
+import BtnNext from "./js/BtnNext";
+
+const sliderInit = new SliderInit('slider', {
+    slidesActiveCount: 3,
+    sliderPos: 2,
+})
+
+sliderInit.sliderValidation();
 
 //DOM initializing
 const sliderDOM = document.getElementById("slider");
 const slides = document.querySelectorAll('.slide');
-const btnNext = document.getElementById('slide-next');
 const btnPrev = document.getElementById('slide-prev');
+
+const btnNext = new BtnNext('slide-next', sliderInit.sliderPos_m, sliderInit.sliderLastPos_m);
 
 //Initializing
 interface mySlider {
@@ -12,19 +24,6 @@ interface mySlider {
     slidesActiveCount:number,
     sliderPos:number,
     sliderLastPos:number,
-}
-
-//Initializing Checking
-/*
-*Replace params of this function to obj
-*Replace error message to math formulation
-*/
-function sliderInitCheck(sliderCount:number, sliderActiveCount:number, sliderPos:number, sliderLastPos:number) {
-    let errorsArr = [];
-    if (sliderPos>sliderLastPos || sliderPos<0) errorsArr.push("'sliderPos' should be less or equal then 'sliderLastPos' and more or equal '0'");
-    if (sliderActiveCount>sliderCount) errorsArr.push ("'SliderActiveCount should be less or equal 'sliderCount'");
-    if (errorsArr.length==0) return 0;
-    else return errorsArr;
 }
 
 //Button Initializing
@@ -83,7 +82,6 @@ function sliderInitialize() {
 
     mySlider.sliderLastPos = mySlider.slidesCount-mySlider.slidesActiveCount;
 
-    const isChecked = sliderInitCheck(mySlider.slidesCount, mySlider.slidesActiveCount, mySlider.sliderPos, mySlider.sliderLastPos);
     if (!isChecked) {
         btnStyle(sliderBtnInit(mySlider.sliderPos, mySlider.sliderLastPos))
         console.log(setActiveSlides(mySlider));
