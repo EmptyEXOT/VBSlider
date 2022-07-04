@@ -1,22 +1,19 @@
 import("./styles/sliderStyles.scss");
-import NavBtn from "./js/NavBtn";
 
-import SliderInit from "./js/SliderInit";
-import BtnNext from "./js/BtnNext";
+import VBSlider from "./js/VBSlider";
 
-const sliderInit = new SliderInit('slider', {
-    slidesActiveCount: 3,
-    sliderPos: 2,
+const slider = new (VBSlider as any)({
+    activeSlides: 3,
+    startPos: 1,
 })
 
-sliderInit.sliderValidation();
+slider.render();
 
 //DOM initializing
 const sliderDOM = document.getElementById("slider");
 const slides = document.querySelectorAll('.slide');
 const btnPrev = document.getElementById('slide-prev');
 
-const btnNext = new BtnNext('slide-next', sliderInit.sliderPos_m, sliderInit.sliderLastPos_m);
 
 //Initializing
 interface mySlider {
