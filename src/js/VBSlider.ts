@@ -26,7 +26,10 @@ const defaultOptions:Options = {
 }
 
 export default function VBSlider(options:Options = defaultOptions) {
-    this.activeSlidesCount = options.activeSlidesCount;
+    if (!options) {
+        this.activeSlidesCount = defaultOptions.activeSlidesCount;
+    } else this.activeSlidesCount = options.activeSlidesCount;
+
     this.pos = options.pos;
     this.btnNext = document.querySelector('.btn-next');
     this.btnPrev = document.querySelector('.btn-prev');
