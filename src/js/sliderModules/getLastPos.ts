@@ -1,4 +1,4 @@
-import VBSlider from "./VBSlider";
+import VBSlider from "../VBSlider";
 
 export default VBSlider.prototype.getLastPos = function (slidesCount:number, activeSlidesCount:number) {
     let lastSlidePos = slidesCount-activeSlidesCount;

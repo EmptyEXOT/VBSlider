@@ -1,4 +1,4 @@
-import VBSlider from "./VBSlider";
+import VBSlider from "../VBSlider";
 
 export default VBSlider.prototype.SetActiveSlides = function (slidesCollection:any, pos:number, activeSlidesCount:number) {
     let activeSlides = []
