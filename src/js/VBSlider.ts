@@ -20,7 +20,7 @@ interface Options {
 
 const defaultOptions:Options = {
     activeSlidesCount: 3,
-    pos: 0,
+    pos: 1,
     isInfinite: false,
     lastSlidePos: 1,
     slidesCount: 0,
@@ -28,11 +28,13 @@ const defaultOptions:Options = {
 }
 
 export default function VBSlider(options:Options = defaultOptions) {
-    if (!options) {
+    if (!options.activeSlidesCount) {
         this.activeSlidesCount = defaultOptions.activeSlidesCount;
     } else this.activeSlidesCount = options.activeSlidesCount;
 
-    this.pos = options.pos;
+    if (!options.pos) {
+        this.pos = defaultOptions.pos;
+    } else this.pos = options.pos;
     this.btnNext = document.querySelector('.btn-next');
     this.btnPrev = document.querySelector('.btn-prev');
 
