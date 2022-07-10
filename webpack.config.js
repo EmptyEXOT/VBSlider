@@ -1,13 +1,14 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
     entry: {
         app: "./src/main.ts"
     },
     output: {
-        filename: "[name].[contenthash].js",
+        filename: "[contenthash].js",
         path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
@@ -16,6 +17,9 @@ module.exports = {
             }
         ),
         new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'style.css',
+        }),
     ],
     devServer: {
         port: 3000,
@@ -31,7 +35,7 @@ module.exports = {
             },
             {
                 test: /\.(css|scss|sass)$/,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
             },
             {
                 test: /\.svg$/i,

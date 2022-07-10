@@ -1,4 +1,4 @@
-import VBSlider from "./VBSlider";
+import VBSlider from "../VBSlider";
 
 //that method should be called immedeatly
 export default VBSlider.prototype.getSlidesCount = function() {

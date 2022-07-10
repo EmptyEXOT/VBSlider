@@ -1,4 +1,4 @@
-import VBSlider from "./VBSlider";
+import VBSlider from "../VBSlider";
 
 export default VBSlider.prototype.BtnStateInit = function(pos:number, lastSlidePos:number, ) {
     if (pos==0 && pos==lastSlidePos) return 'disableBoth';
