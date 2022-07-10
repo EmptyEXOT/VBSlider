@@ -1,4 +1,4 @@
-import VBSlider from "./VBSlider";
+import VBSlider from "../VBSlider";
 
 export default VBSlider.prototype.SetBtnStyles = function(btnState:string, btnPrev:any, btnNext:any) {
     if (btnState == 'disableBoth') {

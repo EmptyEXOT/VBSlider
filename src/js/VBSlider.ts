@@ -1,15 +1,16 @@
-import SliderInitCheck from "./SliderInitCheck";
-import BtnStateInit from "./BtnStateInit";
-import InitSlidesCollection from "./InitSlidesCollection";
-import SetActiveSlides from "./SetActiveSlides";
-import SetSlidesStyles from "./SetSlidesStyles";
-import SetBtnStyles from "./SetBtnStyles";
-import getSlidesCount from "./getSlidesCount";
-import getLastPos from "./getLastPos";
+import SliderInitCheck from "./sliderModules/SliderInitCheck";
+import BtnStateInit from "./sliderModules/BtnStateInit";
+import InitSlidesCollection from "./sliderModules/InitSlidesCollection";
+import SetActiveSlides from "./sliderModules/SetActiveSlides";
+import SetSlidesStyles from "./sliderModules/SetSlidesStyles";
+import SetBtnStyles from "./sliderModules/SetBtnStyles";
+import getSlidesCount from "./sliderModules/getSlidesCount";
+import getLastPos from "./sliderModules/getLastPos";
 
 interface Options {
     activeSlidesCount?: number,
     pos?:number,
+    isInfinite?:boolean,
     lastSlidePos?:number,
     slidesCount?:number,
     slidesCollection?:any,
@@ -20,6 +21,7 @@ interface Options {
 const defaultOptions:Options = {
     activeSlidesCount: 3,
     pos: 0,
+    isInfinite: false,
     lastSlidePos: 1,
     slidesCount: 0,
     slidesCollection: undefined,

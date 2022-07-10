@@ -1,4 +1,4 @@
-import VBSlider from "./VBSlider";
+import VBSlider from "../VBSlider";
 
 export default VBSlider.prototype.InitSlidesCollection = function () {
     let slidesCollection = document.getElementsByClassName('slide');
