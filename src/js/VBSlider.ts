@@ -32,9 +32,14 @@ export default function VBSlider(options:Options = defaultOptions) {
         this.activeSlidesCount = defaultOptions.activeSlidesCount;
     } else this.activeSlidesCount = options.activeSlidesCount;
 
-    if (!options.pos) {
+    if (options.pos==undefined) {
         this.pos = defaultOptions.pos;
     } else this.pos = options.pos;
+
+    if (!options.isInfinite) {
+        this.isInfinite = defaultOptions.isInfinite;
+    } else this.isInfinite = options.isInfinite;
+
     this.btnNext = document.querySelector('.btn-next');
     this.btnPrev = document.querySelector('.btn-prev');
 
@@ -43,34 +48,32 @@ export default function VBSlider(options:Options = defaultOptions) {
 VBSlider.prototype.render = function() {
     try {
         //initializing collection of slides
-        this.slidesCollection = InitSlidesCollection();
+        let slidesCollection = InitSlidesCollection();
 
         //initializing lastSlidePos and slidesCount
         this.slidesCount = getSlidesCount();
         this.lastSlidePos = getLastPos(this.slidesCount, this.activeSlidesCount);
 
         //checking properties validity
+        //not necessary for infinite mode
         SliderInitCheck(this.slidesCount, this.pos, this.lastSlidePos, this.activeSlidesCount);
 
-        //buttons initialization
-        //        BtnInit.call(this);
-
         //initializing properties of buttons
-        const btnState = BtnStateInit(this.pos, this.lastSlidePos);
+        const btnState = BtnStateInit(this.pos, this.lastSlidePos, this.isInfinite);
 
         //setting btn styles
         SetBtnStyles(btnState, this.btnPrev, this.btnNext);
 
         //initializing active slides
-        let activeSlides = SetActiveSlides(this.slidesCollection, this.pos, this.activeSlidesCount);
+        let activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount);
 
         //setting slides styles
-        SetSlidesStyles(this.slidesCollection, activeSlides);
+        SetSlidesStyles(slidesCollection, activeSlides);
 
         this.btnNext.onclick = () => {
             this.pos++;
-            activeSlides = SetActiveSlides(this.slidesCollection, this.pos, this.activeSlidesCount)
-            SetSlidesStyles(this.slidesCollection, activeSlides)
+            activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount)
+            SetSlidesStyles(slidesCollection, activeSlides)
             this.btnPrev.removeAttribute('disabled');
             if (this.pos==this.lastSlidePos) {
                 this.btnNext.setAttribute('disabled', 'true');
@@ -79,8 +82,8 @@ VBSlider.prototype.render = function() {
 
         this.btnPrev.onclick = () => {
             this.pos--;
-            activeSlides = SetActiveSlides(this.slidesCollection, this.pos, this.activeSlidesCount)
-            SetSlidesStyles(this.slidesCollection, activeSlides)
+            activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount)
+            SetSlidesStyles(slidesCollection, activeSlides)
             this.btnNext.removeAttribute('disabled');
             if (this.pos==0) {
                 this.btnPrev.setAttribute('disabled', 'true');

@@ -11,4 +11,5 @@ export default VBSlider.prototype.SetBtnStyles = function(btnState:string, btnPr
     else if (btnState == 'disableNext') {
         btnNext.setAttribute('disabled', 'true');
     }
+    else return;
 }
