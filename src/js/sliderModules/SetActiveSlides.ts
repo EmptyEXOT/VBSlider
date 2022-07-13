@@ -5,6 +5,5 @@ export default VBSlider.prototype.SetActiveSlides = function (slidesCollection:a
     for (let i = pos; i<pos+activeSlidesCount; i++) {
         activeSlides.push(slidesCollection[i]);
     }
-    console.log('SetActiveSlides')
     return activeSlides;
 }
