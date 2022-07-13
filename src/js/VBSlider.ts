@@ -11,6 +11,7 @@ interface Options {
     activeSlidesCount?: number,
     pos?:number,
     isInfinite?:boolean,
+    scrollingCount?: number,
     lastSlidePos?:number,
     slidesCount?:number,
     slidesCollection?:any,
@@ -22,6 +23,7 @@ const defaultOptions:Options = {
     activeSlidesCount: 3,
     pos: 1,
     isInfinite: false,
+    scrollingCount: 1,
     lastSlidePos: 1,
     slidesCount: 0,
     slidesCollection: undefined,
@@ -39,6 +41,10 @@ export default function VBSlider(options:Options = defaultOptions) {
     if (!options.isInfinite) {
         this.isInfinite = defaultOptions.isInfinite;
     } else this.isInfinite = options.isInfinite;
+
+    if (!options.scrollingCount) {
+        this.scrollingCount = defaultOptions.scrollingCount;
+    } else this.scrollingCount = options.scrollingCount;
 
     this.btnNext = document.querySelector('.btn-next');
     this.btnPrev = document.querySelector('.btn-prev');
@@ -71,7 +77,9 @@ VBSlider.prototype.render = function() {
         SetSlidesStyles(slidesCollection, activeSlides);
 
         this.btnNext.onclick = () => {
-            this.pos++;
+            if (this.pos+this.scrollingCount>this.lastSlidePos) {
+                this.pos = this.lastSlidePos;
+            } else this.pos = this.pos+this.scrollingCount;
             activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount)
             SetSlidesStyles(slidesCollection, activeSlides)
             this.btnPrev.removeAttribute('disabled');
@@ -79,9 +87,10 @@ VBSlider.prototype.render = function() {
                 this.btnNext.setAttribute('disabled', 'true');
             }
         }
-
         this.btnPrev.onclick = () => {
-            this.pos--;
+            if (this.pos-this.scrollingCount<0) {
+                this.pos = 0;
+            } else this.pos = this.pos-this.scrollingCount;
             activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount)
             SetSlidesStyles(slidesCollection, activeSlides)
             this.btnNext.removeAttribute('disabled');
