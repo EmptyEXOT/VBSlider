@@ -11,6 +11,7 @@ interface Options {
     activeSlidesCount?: number,
     pos?:number,
     isInfinite?:boolean,
+    scrollingCount?: number,
     lastSlidePos?:number,
     slidesCount?:number,
     slidesCollection?:any,
@@ -20,16 +21,31 @@ interface Options {
 
 const defaultOptions:Options = {
     activeSlidesCount: 3,
-    pos: 0,
+    pos: 1,
     isInfinite: false,
+    scrollingCount: 1,
     lastSlidePos: 1,
     slidesCount: 0,
     slidesCollection: undefined,
 }
 
 export default function VBSlider(options:Options = defaultOptions) {
-    this.activeSlidesCount = options.activeSlidesCount;
-    this.pos = options.pos;
+    if (!options.activeSlidesCount) {
+        this.activeSlidesCount = defaultOptions.activeSlidesCount;
+    } else this.activeSlidesCount = options.activeSlidesCount;
+
+    if (options.pos==undefined) {
+        this.pos = defaultOptions.pos;
+    } else this.pos = options.pos;
+
+    if (!options.isInfinite) {
+        this.isInfinite = defaultOptions.isInfinite;
+    } else this.isInfinite = options.isInfinite;
+
+    if (!options.scrollingCount) {
+        this.scrollingCount = defaultOptions.scrollingCount;
+    } else this.scrollingCount = options.scrollingCount;
+
     this.btnNext = document.querySelector('.btn-next');
     this.btnPrev = document.querySelector('.btn-prev');
 
@@ -38,44 +54,45 @@ export default function VBSlider(options:Options = defaultOptions) {
 VBSlider.prototype.render = function() {
     try {
         //initializing collection of slides
-        this.slidesCollection = InitSlidesCollection();
+        let slidesCollection = InitSlidesCollection();
 
         //initializing lastSlidePos and slidesCount
         this.slidesCount = getSlidesCount();
         this.lastSlidePos = getLastPos(this.slidesCount, this.activeSlidesCount);
 
         //checking properties validity
+        //not necessary for infinite mode
         SliderInitCheck(this.slidesCount, this.pos, this.lastSlidePos, this.activeSlidesCount);
 
-        //buttons initialization
-        //        BtnInit.call(this);
-
         //initializing properties of buttons
-        const btnState = BtnStateInit(this.pos, this.lastSlidePos);
+        const btnState = BtnStateInit(this.pos, this.lastSlidePos, this.isInfinite);
 
         //setting btn styles
         SetBtnStyles(btnState, this.btnPrev, this.btnNext);
 
         //initializing active slides
-        let activeSlides = SetActiveSlides(this.slidesCollection, this.pos, this.activeSlidesCount);
+        let activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount);
 
         //setting slides styles
-        SetSlidesStyles(this.slidesCollection, activeSlides);
+        SetSlidesStyles(slidesCollection, activeSlides);
 
         this.btnNext.onclick = () => {
-            this.pos++;
-            activeSlides = SetActiveSlides(this.slidesCollection, this.pos, this.activeSlidesCount)
-            SetSlidesStyles(this.slidesCollection, activeSlides)
+            if (this.pos+this.scrollingCount>this.lastSlidePos) {
+                this.pos = this.lastSlidePos;
+            } else this.pos = this.pos+this.scrollingCount;
+            activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount)
+            SetSlidesStyles(slidesCollection, activeSlides)
             this.btnPrev.removeAttribute('disabled');
             if (this.pos==this.lastSlidePos) {
                 this.btnNext.setAttribute('disabled', 'true');
             }
         }
-
         this.btnPrev.onclick = () => {
-            this.pos--;
-            activeSlides = SetActiveSlides(this.slidesCollection, this.pos, this.activeSlidesCount)
-            SetSlidesStyles(this.slidesCollection, activeSlides)
+            if (this.pos-this.scrollingCount<0) {
+                this.pos = 0;
+            } else this.pos = this.pos-this.scrollingCount;
+            activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount)
+            SetSlidesStyles(slidesCollection, activeSlides)
             this.btnNext.removeAttribute('disabled');
             if (this.pos==0) {
                 this.btnPrev.setAttribute('disabled', 'true');

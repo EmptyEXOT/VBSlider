@@ -33,6 +33,12 @@ module.exports = {
                     loader: 'babel-loader',
                 }
             },
+            //for development mode
+            /*
+            {
+                test: /\.(css|scss|sass)$/,
+                use: ['style-loader', "css-loader", "sass-loader"]
+            },*/
             {
                 test: /\.(css|scss|sass)$/,
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],

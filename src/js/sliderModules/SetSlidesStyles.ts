@@ -7,5 +7,4 @@ export default VBSlider.prototype.SetSlidesStyles = function(slidesCollection:an
     for (let i = 0; i<activeSlides.length; i++) {
         activeSlides[i].classList.add('active');
     }
-    console.log('SetSlidesStyles');
 }
