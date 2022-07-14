@@ -5,7 +5,7 @@ const slider = new (VBSlider as any)({
     pos: 1,
     activeSlidesCount: 3,
     isInfinite: false,
-    scrollingCount: 4,
+    scrollingCount: 3,
 })
 
 slider.render();

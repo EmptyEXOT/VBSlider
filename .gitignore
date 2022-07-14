@@ -2,4 +2,5 @@
 .idea
 /node_modules
 /dist
+./src/main.js
 package-lock.json
