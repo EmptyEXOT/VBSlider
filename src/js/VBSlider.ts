@@ -6,6 +6,10 @@ import SetSlidesStyles from "./sliderModules/SetSlidesStyles";
 import SetBtnStyles from "./sliderModules/SetBtnStyles";
 import getSlidesCount from "./sliderModules/getSlidesCount";
 import getLastPos from "./sliderModules/getLastPos";
+import posCounter from "./sliderModules/next";
+import posIncrease from "./sliderModules/next";
+import posReduce from "./sliderModules/prev";
+import renderHtml from "./sliderModules/htmlLoader";
 
 interface Options {
     activeSlidesCount?: number,
@@ -53,6 +57,9 @@ export default function VBSlider(options:Options = defaultOptions) {
 
 VBSlider.prototype.render = function() {
     try {
+        //rendering container for active slides
+        renderHtml('slider');
+
         //initializing collection of slides
         let slidesCollection = InitSlidesCollection();
 
@@ -71,30 +78,27 @@ VBSlider.prototype.render = function() {
         SetBtnStyles(btnState, this.btnPrev, this.btnNext);
 
         //initializing active slides
-        let activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount);
+        let activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount, this.slidesCount);
 
         //setting slides styles
         SetSlidesStyles(slidesCollection, activeSlides);
 
         this.btnNext.onclick = () => {
-            if (this.pos+this.scrollingCount>this.lastSlidePos) {
-                this.pos = this.lastSlidePos;
-            } else this.pos = this.pos+this.scrollingCount;
-            activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount)
+            this.pos = posIncrease(this.pos, this.scrollingCount, this.lastSlidePos, this.isInfinite, this.activeSlidesCount)
+            activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount, this.slidesCount)
             SetSlidesStyles(slidesCollection, activeSlides)
             this.btnPrev.removeAttribute('disabled');
-            if (this.pos==this.lastSlidePos) {
+            if (this.pos==this.lastSlidePos && this.isInfinite == false) {
                 this.btnNext.setAttribute('disabled', 'true');
             }
+            console.log(this.pos);
         }
         this.btnPrev.onclick = () => {
-            if (this.pos-this.scrollingCount<0) {
-                this.pos = 0;
-            } else this.pos = this.pos-this.scrollingCount;
-            activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount)
+            this.pos = posReduce(this.pos, this.scrollingCount)
+            activeSlides = SetActiveSlides(slidesCollection, this.pos, this.activeSlidesCount, this.slidesCount)
             SetSlidesStyles(slidesCollection, activeSlides)
             this.btnNext.removeAttribute('disabled');
-            if (this.pos==0) {
+            if (this.pos==0 && this.isInfinte == false) {
                 this.btnPrev.setAttribute('disabled', 'true');
             }
         }
