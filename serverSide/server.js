@@ -1,29 +1,30 @@
 const http = require('http');
-const mailer = require('nodemailer')
+const nodemailer = require('nodemailer');
+const express = require('express');
 
-let transporter = mailer.createTransport({
+let app = express();
+
+let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'alimsadullaev18@gmail.com',
-        pass: 'Az9Jf0rr67',
+        pass: 'sxgnmljreanslqfo',
     },
 });
 
 let mailOptions = {
     from: 'alimsadullaev18@gmail.com',
-    to: 'sadullaev.alim@mail.ru',
-    subject: 'that mail has been sent via node.js',
-    text: 'test mail',
+    to: 'maratsadullaev@mail.ru',
+    subject: 'html test message',
+    text: 'nothing',
+    html: '<div>' + '<b>hello, Marat</b>' +
+        '</div>'
 };
 
-transporter.sendMail(mailOptions, ()=>{
+transporter.sendMail(mailOptions, (err)=>{
     if (err) {
-        console.log('sending error');
+        console.log(err);
     } else {
         console.log('mail has been sent successfully');
     };
 })
-
-
-http.createServer(()=>{
-}).listen(8080);
